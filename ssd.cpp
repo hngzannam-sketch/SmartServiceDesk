@@ -2,7 +2,6 @@
 #include <string>
 using namespace std;
 const int MAX = 100;
-// ==================== CUSTOMER ====================
 class Customer {
 public:
     string id;
@@ -12,7 +11,6 @@ public:
     int tGXuLyDuKien;     // pj
     int trongSoChiPhiCho; // wj
 };
-// ==================== QUEUE ====================
 class Queue {
 private:
     class Node {
@@ -40,7 +38,6 @@ public:
     int getSize() {
         return size;
     }
-    // Thêm khách vào cuối hàng đợi
     void enqueue(Customer c) {
         Node* p = new Node(c);
         if (front == NULL) {
@@ -54,7 +51,6 @@ public:
 
         size++;
     }
-    // Lấy khách đầu hàng đợi
     bool dequeue(Customer& c) {
         if (front == NULL) {
             return false;
@@ -69,7 +65,6 @@ public:
         size--;
         return true;
     }
-    // Thêm lại đầu Queue - dùng cho Undo SERVE
     void addFront(Customer c) {
         Node* p = new Node(c);
         p->next = front;
@@ -79,12 +74,10 @@ public:
         }
         size++;
     }
-    // Xóa cuối Queue - dùng cho Undo ADD
     void removeRear() {
         if (front == NULL) {
             return;
         }
-        // Chỉ có 1 phần tử
         if (front == rear) {
             delete front;
             front = NULL;
@@ -174,7 +167,6 @@ public:
 
     }
 };
-// ==================== CUSTOMER LIST ====================
 class CustomerList {
 private:
     class Node {
@@ -207,7 +199,6 @@ public:
         }
         size++;
     }
-    // Tìm khách theo mã
     Customer* findById(string id) {
         Node* p = head;
         while (p != NULL) {
@@ -218,7 +209,6 @@ public:
         }
         return NULL;
     }
-    // Xóa khách cuối cùng - phục vụ Undo ADD
     void removeLast() {
         if (head == NULL) {
             return;
@@ -309,7 +299,6 @@ public:
     if (head == NULL) {
         return false;
     }
-    // Xoa node dau
     if (head->data.id == id) {
         Node* p = head;
         oldData = p->data;
@@ -319,16 +308,13 @@ public:
         return true;
     }
     Node* p = head;
-    // Tim node dung truoc node can xoa
     while (p->next != NULL &&
            p->next->data.id != id) {
         p = p->next;
     }
-    // Khong tim thay
     if (p->next == NULL) {
         return false;
     }
-    // Tim thay
     Node* temp = p->next;
     oldData = temp->data;
     p->next = temp->next;
@@ -338,7 +324,6 @@ public:
 }
     
 };
-// ==================== TICKET ====================
 class Ticket {
 public:
     string idPhieu;
@@ -346,7 +331,6 @@ public:
     string yeuCau;
     string trangThai;
 };
-// ==================== TICKET LIST ====================
 class TicketList {
 private:
     class Node {
@@ -401,8 +385,6 @@ public:
     if (head == NULL) {
         return false;
     }
-
-    // Xoa node dau
     if (head->data.idPhieu == idPhieu) {
         Node* p = head;
 
@@ -413,25 +395,18 @@ public:
 
         return true;
     }
-
     Node* p = head;
-
     while (p->next != NULL &&
            p->next->data.idPhieu != idPhieu) {
         p = p->next;
     }
-
     if (p->next == NULL) {
         return false;
     }
-
     Node* temp = p->next;
-
     p->next = temp->next;
-
     delete temp;
     size--;
-
     return true;
 }
     bool updateById(string idPhieu, Ticket newData) {
@@ -445,7 +420,6 @@ public:
 
         p = p->next;
     }
-
     return false;
 }
     void display() {
@@ -468,7 +442,6 @@ public:
         }
     }
 };
-// ==================== HISTORY STACK ====================
 class History {
 public:
     string action;
@@ -503,7 +476,6 @@ public:
         return true;
     }
 };
-// ==================== CHUONG TRINH CHINH ====================
 class ServiceDesk {
 private:
     Queue q;
@@ -511,14 +483,11 @@ private:
     TicketList ticketList;
     HistoryStack history;
 public:
-
-    // ---------- Thêm khách ----------
     void addCustomer() {
         Customer empty;
         Customer c;
         cout << "Nhap ma khach hang: ";
         cin >> c.id;
-        // Kiểm tra mã trùng
         if (customerList.findById(c.id) != NULL) {
             cout << "Ma khach hang da ton tai!\n";
             return;
@@ -534,15 +503,11 @@ public:
         cin >> c.tGXuLyDuKien;
         cout << "Nhap trong so chi phi cho: ";
         cin >> c.trongSoChiPhiCho;
-        // Thêm vào Queue
         q.enqueue(c);
-        // Thêm vào danh sách khách
         customerList.add(c);
-        // Lưu lịch sử
         history.push("ADD",empty,c);
         cout << "Da them khach hang!\n";
     }
-    // ---------- Phục vụ ----------
     void serveCustomer() {
         Customer c;
         if (!q.dequeue(c)) {
@@ -554,18 +519,15 @@ public:
         cout << "Ten: " << c.ten << endl;
         cout << "Dich vu: "
              << c.loaiDichVu << endl;
-        // Ticket chuyển sang đã xử lý
         ticketList.updateStatus(c.id, "Da xu ly");
         cout << "Da phuc vu khach hang!\n";
     }
-    // ---------- Tạo Ticket ----------
     void addTicket() {
         Ticket t;
         cout << "Nhap ma phieu: ";
         cin >> t.idPhieu;
         cout << "Nhap ma khach hang: ";
         cin >> t.customerId;
-        // Kiểm tra khách có tồn tại
         if (customerList.findById(t.customerId) == NULL) {
             cout << "Khong ton tai khach hang nay!\n";
             return;
@@ -577,7 +539,6 @@ public:
         ticketList.add(t);
         cout << "Da tao ticket!\n";
     }
-    // ---------- Tìm Customer ----------
     void searchCustomer() {
         string id;
         cout << "Nhap ma khach hang can tim: ";
@@ -599,7 +560,6 @@ public:
         cout << "Trong so chi phi cho: "
              << c->trongSoChiPhiCho << endl;
     }
-    // ---------- Tìm Ticket ----------
     void searchTicket() {
         string id;
         cout << "Nhap ma khach hang: ";
@@ -618,7 +578,6 @@ public:
         cout << "Trang thai: "
              << t->trangThai << endl;
     }
-    // ---------- Undo ----------
     void undo() {
     History h;
     if (!history.pop(h)) {
@@ -663,9 +622,7 @@ public:
         cout << "Khong tim thay khach hang!\n";
         return;
     }
-    // Luu thong tin cu de Undo
     Customer oldData = *c;
-    // Tao thong tin moi
     Customer newData = oldData;
     cin.ignore();
     cout << "Nhap ten moi: ";
@@ -678,11 +635,8 @@ public:
     cin >> newData.tGXuLyDuKien;
     cout << "Nhap trong so chi phi cho moi: ";
     cin >> newData.trongSoChiPhiCho;
-    // Cap nhat danh sach
     customerList.updateById(id, newData);
-    // Neu khach dang cho thi cap nhat Queue
     q.updateById(id, newData);
-    // Luu lich su
     history.push("UPDATE", oldData, newData);
     cout << "Da cap nhat khach hang!\n";
 }
@@ -701,7 +655,6 @@ public:
     cout << "Da xoa khach hang: "
          << oldData.ten << endl;
     }
-    // ---------- Menu ----------
     void hienThiMenu() {
         cout << "\n===== SMART SERVICE DESK =====\n";
         cout << "1. Them khach hang\n";
@@ -715,7 +668,6 @@ public:
         cout << "0. Thoat\n";
         cout << "Nhap lua chon: ";
     }
-    // ---------- Chạy chương trình ----------
     void run() {
         int choice;
         do {
@@ -769,7 +721,6 @@ public:
         } while (choice != 0);
     }
 };
-// ==================== MAIN ====================
 int main() {
     ServiceDesk app;
     app.run();
