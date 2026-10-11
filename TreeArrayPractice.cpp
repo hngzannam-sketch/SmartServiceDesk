@@ -9,19 +9,15 @@ const int MAX = 100;
 const int EMPTY = 0;
 
 struct Node {
-    int id;                 // Ma nut
-    string content;         // Cau hoi hoac ket luan
-    int left;               // Chi so con trai (Co)
-    int right;              // Chi so con phai (Khong)
-    int isLeaf;             // 1: nut ket luan, 0: nut cau hoi
+    int id;              
+    string content;        
+    int left;               
+    int right;              
+    int isLeaf;             
 };
-
-// Cac nut duoc luu tai Tree[1] ... Tree[n], KHONG dung con tro lien ket.
 Node Tree[MAX + 1];
 int root = 1;
 int n = 0;
-
-// -------------------- DOC DU LIEU AN TOAN --------------------
 int readInt(const string &message) {
     string line;
     int value;
@@ -34,7 +30,6 @@ int readInt(const string &message) {
         cout << "Vui long nhap mot so nguyen hop le!\n";
     }
 }
-
 string readContent() {
     string content;
     while (true) {
@@ -45,14 +40,11 @@ string readContent() {
         cout << "Noi dung phai khac rong va ngan hon 120 ky tu!\n";
     }
 }
-
 void clearTree() {
     for (int i = 0; i <= MAX; ++i) Tree[i] = Node{};
     root = 1;
     n = 0;
 }
-
-// -------------------- KHOI TAO CAY MAU --------------------
 void loadSampleTree() {
     clearTree();
     n = 7;
@@ -65,8 +57,6 @@ void loadSampleTree() {
     Tree[7] = {7, "Theo doi binh thuong", 0, 0, 1};
     cout << "Da nap cay mau gom 7 nut, root = 1.\n";
 }
-
-// Moi nut chi duoc tham mot lan, tranh chu trinh / trung lien ket.
 bool visitTree(int i, bool visited[]) {
     if (i == EMPTY) return true;
     if (visited[i]) return false;
@@ -109,8 +99,6 @@ bool validateTree() {
     }
     return true;
 }
-
-// -------------------- NHAP CAY THU CONG --------------------
 void inputTree() {
     int total = readInt("Nhap so nut (1..100): ");
     if (total < 1 || total > MAX) {
@@ -137,8 +125,6 @@ void inputTree() {
     }
     cout << "Nhap cay thanh cong. Root = " << root << ".\n";
 }
-
-// -------------------- HIEN THI BANG MANG --------------------
 void showTree() {
     cout << "\n" << left << setw(7) << "Index"
          << setw(7) << "ID" << setw(30) << "Noi dung"
@@ -152,8 +138,6 @@ void showTree() {
              << Tree[i].isLeaf << '\n';
     }
 }
-
-// -------------------- DUYET CAY --------------------
 void preorder(int i) {
     if (i == EMPTY) return;
     cout << Tree[i].id << ' ';
@@ -181,8 +165,6 @@ void traverseTree() {
     cout << "\nHau tu (LRN): "; postorder(root);
     cout << '\n';
 }
-
-// -------------------- TIM KIEM, IN DUONG DI --------------------
 int findIndexById(int targetId) {
     for (int i = 1; i <= n; ++i) {
         if (Tree[i].id == targetId) return i;
@@ -229,8 +211,6 @@ void searchAndPrintPath() {
         cout << '\n';
     }
 }
-
-// -------------------- THONG KE --------------------
 int height(int i) {
     if (i == EMPTY) return 0;
     int hLeft = height(Tree[i].left);
@@ -249,8 +229,6 @@ void showStatistics() {
     cout << "So nut la: " << countLeaves(root) << '\n';
     cout << "Chieu cao (tinh theo so muc): " << height(root) << '\n';
 }
-
-// -------------------- MO PHONG TU VAN HOC VU --------------------
 void runDecisionTree() {
     int current = root;
     string answer;
@@ -273,8 +251,6 @@ void runDecisionTree() {
         cout << "Du lieu cay bi loi.\n";
     }
 }
-
-// -------------------- MENU --------------------
 void showMenu() {
     cout << "\n========== TREE ARRAY PRACTICE (C++) ==========\n"
          << "1. Khoi tao cay mau (7 nut)\n"
