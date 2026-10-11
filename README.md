@@ -210,7 +210,3 @@ KET LUAN: Canh bao hoc vu muc 1 (nut 5)
 **Hạn chế:** Kích thước cây bị giới hạn bởi `MAX = 100`; dữ liệu chỉ nằm trong bộ nhớ khi chương trình đang chạy.
 
 **Hướng phát triển:** Bổ sung lưu/đọc dữ liệu từ tệp, chức năng chỉnh sửa từng nút, hiển thị sơ đồ cây và lưu lại lịch sử câu trả lời để giải thích kết luận tư vấn.
-
----
-
-**Tài liệu bài tập:** *Bài thực hành ứng dụng – Cài đặt cây nhị phân dạng mảng bằng ngôn ngữ C – Cây quyết định hỗ trợ cảnh báo học vụ cho sinh viên*. Bản chương trình hiện tại đã chuyển sang **C++** theo yêu cầu.
